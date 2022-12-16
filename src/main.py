@@ -31,7 +31,7 @@ def vector(radian : float) -> list:
     new_vector = list()
     # Changes the floats into integers:
     for i in vectors[:]:
-        nums = round(i)
+        nums = round(i, 2)
         new_vector.append(nums)
     return new_vector
 
