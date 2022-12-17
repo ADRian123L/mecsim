@@ -17,10 +17,20 @@ def api(run=False) -> None:
 # Using Json:
 def j_file(info : list, run=False) -> json:
     if (run):
-        file = json.dumps(info, indent=4)
-        return file
+        with open ("json_file.json", "w") as text:
+            json.dump(info, text, indent=4)
+
+def json_read() -> list:
+    with open("json_file.json", "r") as text:
+        info = json.load(text)
+    return info
+
+
 
 if __name__ == "__main__":
     api()
-    new_file = j_file( chinese_year_names,run=True)
-    print(new_file)
+    new_file = j_file(chinese_year_names,run=False)
+    info = json_read()
+    print(info)
+
+    
