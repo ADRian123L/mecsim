@@ -13,14 +13,14 @@ chinese_year_names = ('Rat','Ox','Tiger','Rabbit','Dragon','Snake',
                       'Horse','Goat','Monkey','Rooster','Dog','Pig')
 
 # URL:
-URL: str = "https://api.github.com"
+URL: str = "https://json.astrologyapi.com/v1/chinese_zodiac"
 
 # Using an API:
 def api(run=False) -> None:
     if (run):
         try:
             # Requests to a server:
-            response = requests.get(url=URL, params={'q': 'requests+language:python'})
+            response = requests.post(url=URL, json={'year' : 2000})
             # Raises any errors:
             response.raise_for_status
         except HTTPError as error:
