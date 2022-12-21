@@ -51,11 +51,13 @@ def main( inputs ):
     plt.ylim(-max(abs(b),abs(d),abs(res_y)) - 1, max(abs(b),abs(d),abs(res_y)) + 1)
     
     # Plot the result vector:
+    plt.arrow(x = 0, y = 0, dx = inputs['a'], dy = inputs['b'], width = .08, facecolor = 'blue')
+    plt.arrow(x = 0, y = 0, dx = inputs['c'], dy = inputs['d'], width = .08, facecolor = 'blue')
+    plt.arrow(x = 0, y = 0, dx = res_x, dy = res_y, width = .08, facecolor = 'red')
+
+    # Add annotations:
     plt.annotate('a + b = ' + str(res_x), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
     plt.annotate('c + d = ' + str(res_y), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
-    plt.arrow(x=0, y=0, dx=inputs['a'], dy=inputs['b'], width=.08, facecolor = 'blue')
-    plt.arrow(x=0, y = 0, dx = inputs['c'], dy = inputs['d'], width = .08, facecolor = 'blue')
-    plt.arrow(x=0, y = 0, dx = res_x, dy = res_y, width = .08, facecolor = 'red')
     plt.annotate('First vector', xy = (a/2 - 0.1,b/2 - 0.1), color = 'blue')
     plt.annotate('Second vector', xy = (c/2 - 0.1, d/2 - 0.1 ), color = 'blue')
     plt.annotate('Net vector', xy = (res_x / 2 - 0.1, res_y / 2 - 0.1), color = 'red')
