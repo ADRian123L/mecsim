@@ -24,7 +24,7 @@ def plt_show(plt, width=500, dpi=100):
     return "<img src='" + base64_string + "' width='" + str(width) + "'>"  # Return the image data string
 
 #define two arrays for plotting
-def main(inputs : dict):
+def main( inputs ):
 
 #create scatterplot, specifying marker size to be 40
     
