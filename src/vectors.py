@@ -78,9 +78,6 @@ def main(inputs : dict):
     plt.annotate('b = ' + str(inputs['b']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
     plt.annotate('c = ' + str(inputs['c']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
     plt.annotate('d = ' + str(inputs['d']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
-
-    plt.annotate('a + c = ' + str(res_x), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
-    plt.annotate('b + d = ' + str(res_y), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
     
     # Show the plot:
     img = plt_show(plt)
