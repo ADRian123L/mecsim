@@ -91,12 +91,4 @@ def main(inputs : dict):
 
 # Call the main function:
 if __name__ == "__main__":
-    # Test the function with some inputs:
-    inputs = {
-        'a': 1,
-        'b': 2,
-        'c': 3,
-        'd': 4
-    }
-    # Call the main function:
-    main(inputs)
+    pass
