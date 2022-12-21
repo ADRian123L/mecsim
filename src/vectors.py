@@ -3,6 +3,7 @@ import numpy as np
 import base64
 import io
 
+
 # This function is used to convert matplotlib plt to image data string:
 #   plt is the matplotlib pyplot or figure
 #   width is the width of the graph image in pixels
@@ -32,14 +33,17 @@ def main(inputs : dict):
     num_list = [abs(inputs['a']),abs(inputs['b']),abs(inputs['c']),abs(inputs['d'])]
     max_num = max(num_list)
     '''
+    # Get the inputs:
     a = inputs['a']
     b = inputs['b']
     c = inputs['c']
     d = inputs['d']
     
+    # Create the plot:
     plt.xlabel('x')
     plt.ylabel('y')
 
+    # Calculate the result vector:
     res_x = a + c
     res_y = b + d
     
@@ -48,7 +52,16 @@ def main(inputs : dict):
     plt.ylim(-max(abs(b),abs(d),abs(res_y)) - 1, max(abs(b),abs(d),abs(res_y)) + 1)
     
     # Plot the vectors
-    # Clean up the code by using a for loop
+    # Clean up the code by using a for loop:
+    for i in range(2):
+        plt.arrow(x=0, y=0, dx=inputs[f'a{i}'], dy=inputs[f'b{i}'], width=.08, facecolor = 'blue')
+        plt.annotate(f'Vector {i}', xy = (inputs[f'a{i}']/2 - 0.1,inputs[f'b{i}']/2 - 0.1), color = 'blue')
+        plt.annotate(f'a{i} = ' + str(inputs[f'a{i}']), xy = (0,0), xytext = (inputs[f'a{i}'] + 0.25, inputs[f'b{i}'] + 0.25))
+        plt.annotate(f'b{i} = ' + str(inputs[f'b{i}']), xy = (0,0), xytext = (inputs[f'a{i}'] + 0.25, inputs[f'b{i}'] + 0.25))
+    
+    # Plot the result vector:
+    plt.annotate('a + b = ' + str(res_x), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
+    plt.annotate('c + d = ' + str(res_y), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
     plt.arrow(x=0, y=0, dx=inputs['a'], dy=inputs['b'], width=.08, facecolor = 'blue')
     plt.arrow(x=0, y = 0, dx = inputs['c'], dy = inputs['d'], width = .08, facecolor = 'blue')
     plt.arrow(x=0, y = 0, dx = res_x, dy = res_y, width = .08, facecolor = 'red')
@@ -64,28 +77,31 @@ def main(inputs : dict):
     
     plt.legend()
 
+    # Add a line to show the origin
 #add annotation
     plt.annotate('a = ' + str(inputs['a']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
     plt.annotate('b = ' + str(inputs['b']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
     plt.annotate('c = ' + str(inputs['c']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
     plt.annotate('d = ' + str(inputs['d']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
-    
+
     plt.annotate('a + c = ' + str(res_x), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
     plt.annotate('b + d = ' + str(res_y), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
     
     # Show the plot:
-    # Fix errors with plt.show() in Jupyter notebooks:  
     img = plt_show(plt)
+    # Return the plot:
     return {
         'plot': img
     }
 
 # Call the main function:
 if __name__ == "__main__":
+    # Test the function with some inputs:
     inputs = {
         'a': 1,
         'b': 2,
         'c': 3,
         'd': 4
     }
+    # Call the main function:
     main(inputs)
