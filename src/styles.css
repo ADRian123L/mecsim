@@ -1,0 +1,8 @@
+body {text-align: center; background-color: grey; padding: 0 10% 0 10%;}
+p {font-family: Arial, Helvetica, sans-serif; color: rgb(5, 250, 197); font-size: 1.2em;}
+h1 {font-family: 'Times New Roman', Times, serif; color: rgb(3, 236, 100);}
+
+div.main {width: 25%; padding: 0 10% 0 10%;}
+
+a.list {font: 1em sans-serif;
+font-weight: bold; text-decoration: none;}
