@@ -78,6 +78,9 @@ def main(inputs : dict):
     plt.legend()
 
     # Add a line to show the origin
+    plt.axhline(y = 0, color = 'black')
+    plt.axvline(x = 0, color = 'black')
+
 #add annotation
     plt.annotate('a = ' + str(inputs['a']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
     plt.annotate('b = ' + str(inputs['b']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
