@@ -23,7 +23,6 @@ def plt_show(plt, width=500, dpi=100):
         base64.b64encode(bytes.getvalue()).decode("utf-8")
     return "<img src='" + base64_string + "' width='" + str(width) + "'>"  # Return the image data string
 
-
 #define two arrays for plotting
 def main(inputs : dict):
 
@@ -51,14 +50,6 @@ def main(inputs : dict):
     plt.xlim(-max(abs(a),abs(c),abs(res_x)) - 1, max(abs(a),abs(c),abs(res_x)) + 1)
     plt.ylim(-max(abs(b),abs(d),abs(res_y)) - 1, max(abs(b),abs(d),abs(res_y)) + 1)
     
-    # Plot the vectors
-    # Clean up the code by using a for loop:
-    for i in range(2):
-        plt.arrow(x=0, y=0, dx=inputs[f'a{i}'], dy=inputs[f'b{i}'], width=.08, facecolor = 'blue')
-        plt.annotate(f'Vector {i}', xy = (inputs[f'a{i}']/2 - 0.1,inputs[f'b{i}']/2 - 0.1), color = 'blue')
-        plt.annotate(f'a{i} = ' + str(inputs[f'a{i}']), xy = (0,0), xytext = (inputs[f'a{i}'] + 0.25, inputs[f'b{i}'] + 0.25))
-        plt.annotate(f'b{i} = ' + str(inputs[f'b{i}']), xy = (0,0), xytext = (inputs[f'a{i}'] + 0.25, inputs[f'b{i}'] + 0.25))
-    
     # Plot the result vector:
     plt.annotate('a + b = ' + str(res_x), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
     plt.annotate('c + d = ' + str(res_y), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
@@ -73,6 +64,7 @@ def main(inputs : dict):
     plt.xticks([i * max_num for i in range(-1,2)])
     plt.yticks([i * max_num for i in range(-1,2)])
     '''
+    # Add a grid:
     plt.grid(linestyle = '--')
     
     plt.legend()
