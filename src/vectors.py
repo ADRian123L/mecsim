@@ -42,7 +42,9 @@ def main( inputs ):
     plt.ylabel('y')
 
     # Calculate the result vector:
+    # Add the x components
     res_x = a + c
+    # Add the y components
     res_y = b + d
     
     # Calculate the max number:
@@ -54,9 +56,6 @@ def main( inputs ):
     
     # Calculate the position of the labels:
     position_index =  .1 * max_num
-    
-    # How to add a legend:
-    plt.legend(['First vector', 'Second vector', 'Net vector'], loc = 'upper left', size = 'small')
 
     # Fix the x and y axis limits
     plt.xlim(-max(abs(a),abs(c),abs(res_x)) * 1.1, max(abs(a),abs(c),abs(res_x)) * 1.1)
@@ -78,6 +77,12 @@ def main( inputs ):
     plt.axhline(y = 0, color = 'black')
     plt.axvline(x = 0, color = 'black')
 
+    # Add a title:
+    plt.title('Vector Addition')
+
+    # Add a label to the legend:
+    plt.legend(['First vector', 'Second vector', 'Net vector'], loc = 'upper right')
+
     # Show the plot:
     img = plt_show(plt)
 
@@ -86,13 +91,23 @@ def main( inputs ):
         'plot': img
     }
 
+# Define a function to test the main function:
+def test_main(run=False):
+    if run:
+        # Test the main function:
+        inputs = {  'a': 2, 
+                    'b': 3, 
+                    'c': 4, 
+                    'd': 5 
+                }
+        try:
+            # Run the main function:
+            main(inputs)
+        except Exception as e:
+            # Print the error:
+            print(e)
 
 # Call the main function:
 if __name__ == "__main__":
     # test the main function:
-    inputs = {  'a': 2, 
-                'b': 3, 
-                'c': 4, 
-                'd': 5 
-            }
-    main(inputs)
+    main(run=False) # Set run to True to test the main function
