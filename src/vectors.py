@@ -2,92 +2,112 @@ import matplotlib.pyplot as plt
 import numpy as np
 import base64
 import io
+import os
+from PIL import Image
 
 
-# This function is used to convert matplotlib plt to image data string:
-#   plt is the matplotlib pyplot or figure
-#   width is the width of the graph image in pixels
-#   dpi (dots per inch) is the resolution of the image
 def plt_show(plt, width=500, dpi=100):
     # Converts matplotlib plt to image data string
     #   plt is the matplotlib pyplot or figure
     #   width is the width of the graph image in pixels
     #   dpi (dots per inch) is the resolution of the image
+    #   returns the image data string or an error message
     
-    bytes = io.BytesIO()
-    plt.savefig(bytes, format='png', dpi=dpi)  # Save as png image
-    if hasattr(plt, "close"):
-        plt.close()
-    bytes.seek(0)
-    base64_string = "data:image/png;base64," + \
-        base64.b64encode(bytes.getvalue()).decode("utf-8")
-    return "<img src='" + base64_string + "' width='" + str(width) + "'>"  # Return the image data string
+    try:
+        bytes = io.BytesIO()
+        plt.savefig(bytes, format='png', dpi=dpi)  # Save as png image
+        if hasattr(plt, "close"):
+            plt.close()
+        bytes.seek(0)
+        base64_string = "data:image/png;base64," + \
+            base64.b64encode(bytes.getvalue()).decode("utf-8")
+        return "<img src='" + base64_string + "' width='" + str(width) + "'>"  # Return the image data string
+    except Exception as e:
+        return "<b>Exception:</b> " + str(e)  # Return the error message
 
 #define two arrays for plotting
 def main( inputs ):
 
-#create scatterplot, specifying marker size to be 40
+    # Create a lambda function to calculate the positioning of the labels:
+    label_position = lambda y: (y * 1.1)
     
-    '''
-    num_list = [abs(inputs['a']),abs(inputs['b']),abs(inputs['c']),abs(inputs['d'])]
-    max_num = max(num_list)
-    '''
     # Get the inputs:
-    a = inputs['a']
-    b = inputs['b']
-    c = inputs['c']
-    d = inputs['d']
+    a = inputs['a'] # Get the first input
+    b = inputs['b'] # Get the second input
+    c = inputs['c'] # Get the third input
+    d = inputs['d'] # Get the fourth input
     
     # Create the plot:
     plt.xlabel('x')
     plt.ylabel('y')
 
     # Calculate the result vector:
+    # Add the x components
     res_x = a + c
+    # Add the y components
     res_y = b + d
     
+    # Calculate the max number:
+    try:
+        max_num = max(abs(b),abs(d),abs(res_y))
+    except TypeError:
+        print("Invalid input")
+        return
+    
+    # Calculate the position of the labels:
+    position_index =  .1 * max_num
+
     # Fix the x and y axis limits
-    plt.xlim(-max(abs(a),abs(c),abs(res_x)) - 1, max(abs(a),abs(c),abs(res_x)) + 1)
-    plt.ylim(-max(abs(b),abs(d),abs(res_y)) - 1, max(abs(b),abs(d),abs(res_y)) + 1)
+    plt.xlim(-max(abs(a),abs(c),abs(res_x)) * 1.1, max(abs(a),abs(c),abs(res_x)) * 1.1)
+    plt.ylim(-max(abs(b),abs(d),abs(res_y)) * 1.1 , max(abs(b),abs(d),abs(res_y)) * 1.1)
     
     # Plot the result vector:
-    plt.arrow(x = 0, y = 0, dx = inputs['a'], dy = inputs['b'], width = .08, facecolor = 'blue')
-    plt.arrow(x = 0, y = 0, dx = inputs['c'], dy = inputs['d'], width = .08, facecolor = 'blue')
-    plt.arrow(x = 0, y = 0, dx = res_x, dy = res_y, width = .08, facecolor = 'red')
-
-    # Add annotations:
-    plt.annotate('a + b = ' + str(res_x), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
-    plt.annotate('c + d = ' + str(res_y), xy = (0,0), xytext = (res_x + 0.25, res_y + 0.25))
+    plt.arrow(x = 0, y = 0, dx = inputs['a'], dy = inputs['b'], head_width = .1 * ((abs(a) + abs(b)) / 2), head_length = .1 * ((abs(a)  + abs(b)) / 2), facecolor = 'blue')
+    plt.arrow(x = 0, y = 0, dx = inputs['c'], dy = inputs['d'], head_width = .1 * ((abs(c) + abs(d)) / 2), head_length = .1 * ((abs(c) + abs(d)) / 2), facecolor = 'blue')
+    plt.arrow(x = 0, y = 0, dx = res_x, dy = res_y, head_width = .1 * ((abs(res_x) + abs(res_y)) / 2), head_length = .1 * ((abs(res_x) + abs(res_y)) / 2), facecolor = 'red')
+    
     plt.annotate('First vector', xy = (a/2 - 0.1,b/2 - 0.1), color = 'blue')
     plt.annotate('Second vector', xy = (c/2 - 0.1, d/2 - 0.1 ), color = 'blue')
     plt.annotate('Net vector', xy = (res_x / 2 - 0.1, res_y / 2 - 0.1), color = 'red')
     
-    '''
-    plt.xticks([i * max_num for i in range(-1,2)])
-    plt.yticks([i * max_num for i in range(-1,2)])
-    '''
-    # Add a grid:
+    # Add a grid:   
     plt.grid(linestyle = '--')
-    
-    plt.legend()
 
     # Add a line to show the origin
     plt.axhline(y = 0, color = 'black')
     plt.axvline(x = 0, color = 'black')
 
-#add annotation
-    plt.annotate('a = ' + str(inputs['a']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
-    plt.annotate('b = ' + str(inputs['b']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
-    plt.annotate('c = ' + str(inputs['c']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
-    plt.annotate('d = ' + str(inputs['d']), xy = (0,0), xytext = (inputs['a'] + 0.25, inputs['b'] + 0.25))
-    
+    # Add a title:
+    plt.title('Vector Addition')
+
+    # Add a label to the legend:
+    plt.legend(['First vector', 'Second vector', 'Net vector'], loc = 'upper right')
+
     # Show the plot:
     img = plt_show(plt)
+
     # Return the plot:
     return {
         'plot': img
     }
 
+# Define a function to test the main function:
+def test_main(run=False):
+    if run:
+        # Test the main function:
+        inputs = {  'a': 2, 
+                    'b': 3, 
+                    'c': 4, 
+                    'd': 5 
+                }
+        try:
+            # Run the main function:
+            main(inputs)
+        except Exception as e:
+            # Print the error:
+            print(e)
+
 # Call the main function:
 if __name__ == "__main__":
-    pass
+    # test the main function:
+    main(run=False) # Set run to True to test the main function
