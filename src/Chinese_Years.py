@@ -35,9 +35,9 @@ chinese_zodiac_facts = """
 
 # Chinese zodiacs names:
 chinese_year_names = {
-                    1:'Rat', 2:'Ox', 3:'Tiger', 4:'Rabbit', 
-                    5:'Dragon', 6:'Snake', 7:'Horse', 8:'Goat', 
-                    9:'Monkey', 10:'Rooster', 11:'Dog', 12:'Pig'
+                    0:"Rat", 1:"Ox", 2:"Tiger", 3:"Rabbit", 
+                    4:"Dragon", 5:"Snake", 6:"Horse", 7:"Goat", 
+                    8:"Monkey", 9:"Rooster", 10:"Dog", 11:"Pig"
                     }
 
 # Chinese zodiacs emojis:
@@ -48,28 +48,27 @@ chinese_year_emojis = {
                     }   
     
 # The function determines the name of the year:
-def chinese_zodiac(year) -> str:
+def chinese_zodiac(year):
     '''This function takes a year as input and returns the sign of the
      Chinese zodiac for that year.'''
     # The function returns the sign of the Chinese zodiac for that year:
-    return chinese_year_names[(year - 3) % 12]
+    return chinese_year_names[(year + 4) % 12]
 
 # The function returns a random line from the string:
-def random_line() -> str:
+def random_line():
     '''This function takes a string as input and returns a random line from the string.'''
     random_line = random.choice(chinese_zodiac_facts.splitlines()).strip()
     return random_line
 
 # The function driver:
-def main(input) -> str:
+def main( inputs ):
     '''This function takes a dictionary as input and calls chinese_zodiac
     and returns the name of the year as a string.'''
-    year = input['year'] # Gets the year from the dictionary.
+    year = inputs['year'] # Gets the year from the dictionary.
     name = chinese_zodiac(year) # Gets the name of the year.
     # return name as a dictionary:
     return {'year':year, 'name':name} # Returns the name of the year.
 
 # Run the program:
 if __name__ == "__main__":
-    # test the random_line function:
-    print(random_line())
+    pass
