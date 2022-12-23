@@ -80,7 +80,7 @@ class PlotVector:
 if __name__ == '__main__':
     # Test the class:
     # Create a list of vectors:
-    vectors = [[1, 3], [2, 5], [-4, 2], [3, -6]]
+    vectors = [[-1, 3], [2, -5], [-4, 2], [3, -6]]
     # Create a instance of the class:
     plot = PlotVector('Mecanum Vectors', vectors)
     # Plot the vectors:
