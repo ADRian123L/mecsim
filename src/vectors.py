@@ -4,6 +4,7 @@ import base64
 import io
 import os
 from PIL import Image
+import math
 
 
 def plt_show(plt, width=500, dpi=100):
@@ -24,6 +25,30 @@ def plt_show(plt, width=500, dpi=100):
         return "<img src='" + base64_string + "' width='" + str(width) + "'>"  # Return the image data string
     except Exception as e:
         return "<b>Exception:</b> " + str(e)  # Return the error message
+
+def macanum_wheel(net_x, net_y):
+    try:
+        radians = math.atan(net_y/net_x) - 45 * (math.pi / 180)
+        motor1_vel = 0 - math.sin(radians)
+        motor2_vel = math.cos(radians)
+        motor3_vel = motor1_vel
+        motor4_vel = motor2_vel
+        return [motor1_vel, motor2_vel, motor3_vel, motor4_vel]
+    except:
+        if net_y > 0:
+            motor1_vel = 1.0
+            motor2_vel = 1.0
+            motor3_vel = 1.0
+            motor4_vel = 1.0
+        else:
+            motor1_vel = -1.0
+            motor2_vel = -1.0
+            motor3_vel = -1.0
+            motor4_vel = -1.0
+
+        return [motor1_vel, motor2_vel, motor3_vel, motor4_vel]
+
+
 
 #define two arrays for plotting
 def main( inputs ):
@@ -62,9 +87,9 @@ def main( inputs ):
     plt.ylim(-max(abs(b),abs(d),abs(res_y)) * 1.1 , max(abs(b),abs(d),abs(res_y)) * 1.1)
     
     # Plot the result vector:
-    plt.arrow(x = 0, y = 0, dx = inputs['a'], dy = inputs['b'], head_width = .1 * ((abs(a) + abs(b)) / 2), head_length = .1 * ((abs(a)  + abs(b)) / 2), facecolor = 'blue')
-    plt.arrow(x = 0, y = 0, dx = inputs['c'], dy = inputs['d'], head_width = .1 * ((abs(c) + abs(d)) / 2), head_length = .1 * ((abs(c) + abs(d)) / 2), facecolor = 'blue')
-    plt.arrow(x = 0, y = 0, dx = res_x, dy = res_y, head_width = .1 * ((abs(res_x) + abs(res_y)) / 2), head_length = .1 * ((abs(res_x) + abs(res_y)) / 2), facecolor = 'red')
+    plt.arrow(x = 0, y = 0, dx = inputs['a'], dy = inputs['b'], head_width = .1 * max(abs(a),abs(c),abs(res_x)), head_length = .1 * max(abs(b),abs(d),abs(res_y)), facecolor = 'blue')
+    plt.arrow(x = 0, y = 0, dx = inputs['c'], dy = inputs['d'], head_width = .1 * max(abs(a),abs(c),abs(res_x)), head_length = .1 * max(abs(b),abs(d),abs(res_y)), facecolor = 'blue')
+    plt.arrow(x = 0, y = 0, dx = res_x, dy = res_y, head_width = .1 * max(abs(b),abs(d),abs(res_y)), head_length = .1 * ((abs(res_x) + abs(res_y)) / 2), facecolor = 'red')
     
     plt.annotate('First vector', xy = (a/2 - 0.1,b/2 - 0.1), color = 'blue')
     plt.annotate('Second vector', xy = (c/2 - 0.1, d/2 - 0.1 ), color = 'blue')
@@ -85,10 +110,16 @@ def main( inputs ):
 
     # Show the plot:
     img = plt_show(plt)
+    
 
     # Return the plot:
     return {
-        'plot': img
+        'plot': img,
+        'Motor1': f'{macanum_wheel(res_x, res_y)[0]:.2%}',
+        'Motor2': f'{macanum_wheel(res_x, res_y)[1]:.2%}',
+        'Motor3': f'{macanum_wheel(res_x, res_y)[2]:.2%}',
+        'Motor4': f'{macanum_wheel(res_x, res_y)[3]:.2%}'
+
     }
 
 # Define a function to test the main function:
