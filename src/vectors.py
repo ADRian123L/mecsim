@@ -102,7 +102,8 @@ def test_main(run=False):
                 }
         try:
             # Run the main function:
-            main(inputs)
+            main( inputs )
+         
         except Exception as e:
             # Print the error:
             print(e)
@@ -110,4 +111,4 @@ def test_main(run=False):
 # Call the main function:
 if __name__ == "__main__":
     # test the main function:
-    main(run=False) # Set run to True to test the main function
+    test_main(run=False) # Set run to True to test the main function
