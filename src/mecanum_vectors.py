@@ -1,47 +1,60 @@
-# Create a class to plot the vectors and the result vector:
-#     class PlotVectors:
+""""This module contains the class to plot the vectors of the mecanum wheels."""
 
-import matlibplot.pyplot as plt
+import matplotlib.pyplot as plt
 import random
-import math
+from math import sin, cos, pi, tan, atan, sqrt, radians, degrees
 
 # Define the class to plot the vectors:
 class PlotVector:
 
     # Attribute to store all of the vectors:
     vectors = list()
+    # Attribute to store the direction of the net vector:
+    direction = int()
 
     # Define the constructor for graphing two vectors:
-    def __init__ (self, title, vector_1, vector_2):
+    def __init__ (self, title, vectors):
         """Create a class to plot the vectors and the result vector:
         """
         self.title = title
         # Creates a nested list to store the vectors:
-        self.vectors = [vector_1, vector_2]
-
-
-        pass
+        self.vectors = vectors
+        return None
     
     # Create a instance of the class for plotting the mecanum vectors:
     @classmethod
-    def mecanum_vectors(cls, label, direction):
+    def mecanum_vectors(cls, title, direction):
         """Create a class to plot the vectors and the result vector:
         """
-        cls.vector_1 = 45
-        cls.vector_2 = 135
-        cls.vector_3 = 225
-        cls.vector_4 = 315
-        return cls(label, direction)
+        return cls(title, direction)
 
     def magnitudes(self, direction):
-        motor1 = 0 - math.sin(direction )
-        motor2 = math.cos(direction)
+        """Calculate the components of the vectors."""
+        # Convert the direction to radians:
+        direction = radians(direction)
+        # Calculate the magnitude of the vectors:
+        motor1 = 0 - sin(direction)
+        motor2 = 0 + cos(direction)
         motor3 = motor1
         motor4 = motor2
+        # Calculate the x and y components of the vectors:
+        x_comp1 = cos(pi/4) * motor1
+        y_comp1 = sin(pi/4) * motor1
+        x_comp2 = cos(3 * pi/4) * motor2
+        y_comp2 = sin(3 * pi/4) * motor2
+        x_comp3 = cos(5 * pi/4) * motor3
+        y_comp3 = sin(5 * pi/4) * motor3
+        x_comp4 = cos(7 * pi/4) * motor4
+        y_comp4 = sin(7 * pi/4) * motor4
+    # [[x_vector_1, y_vector_1], [x_vector_2, y_vector_2], [x_vector_3, y_vector_3], [x_vector_4, y_vector_4]]
+        self.vectors = [[x_comp1, y_comp1], [x_comp2, y_comp2], [x_comp3, y_comp3], [x_comp4, y_comp4]]
+        return None
 
     # Plot the vectors:
     def plot(self):
         """Plot the vectors the vectors and the result vector."""
+        # Calculate the result vector:
+        self.result_vector = [sum([vector[0] for vector in self.vectors]), sum([vector[1] for vector in self.vectors])]
         # Create the plot:
         plt.xlabel('x')
         plt.ylabel('y')
@@ -49,8 +62,8 @@ class PlotVector:
         plt.axhline(y = 0, color = 'black')
         plt.axvline(x = 0, color = 'black')
         # Plot the vectors:
-        for vector in self.vectors:
-            plt.arrow(x = 0, y = 0, dx = vector[0], dy = vector[1], head_width = 0.1, head_length = 0.1, facecolor = random.choice(['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black']))
+        plt.arrow(x = 0, y = 0, dx = self.vectors[0][0], dy = self.vectors[0][1], head_width = 0.1, head_length = 0.1, facecolor = random.choice(['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black']))
+        plt.arrow(x = 0, y = 0, dx = self.vectors[1][0], dy = self.vectors[1][1], head_width = 0.1, head_length = 0.1, facecolor = random.choice(['blue', 'red', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black']))
         # Plot the result vector:
         plt.arrow(x = 0, y = 0, dx = self.result_vector[0], dy = self.result_vector[1], head_width = 0.1, head_length = 0.1, facecolor = 'black')
         # Add a grid:
@@ -65,7 +78,10 @@ class PlotVector:
         
 # test the class:
 if __name__ == '__main__':
+    # Test the class:
+    # Create a list of vectors:
+    vectors = [[1, 3], [2, 5], [-4, 2], [3, -6]]
     # Create a instance of the class:
-    vector_plot = PlotVector('Mecanum Vectors', [1, 2], [3, 4])
+    plot = PlotVector('Mecanum Vectors', vectors)
     # Plot the vectors:
-    vector_plot.plot()
+    plot.plot()
