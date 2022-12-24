@@ -58,6 +58,11 @@ class PlotVector:
         # Create the plot:
         plt.xlabel('x')
         plt.ylabel('y')
+        # Biggest vector:
+        biggest_vector = max([sqrt(vector[0]**2 + vector[1]**2) for vector in self.vectors])
+        # Fix the x and y limits:
+        plt.xlim(-biggest_vector, biggest_vector)
+        plt.ylim(-biggest_vector, biggest_vector)
         # Plot the x and y axis:
         plt.axhline(y = 0, color = 'black')
         plt.axvline(x = 0, color = 'black')
