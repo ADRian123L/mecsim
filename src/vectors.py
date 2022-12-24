@@ -20,8 +20,7 @@ def plt_show(plt, width=500, dpi=100):
         if hasattr(plt, "close"):
             plt.close()
         bytes.seek(0)
-        base64_string = "data:image/png;base64," + \
-            base64.b64encode(bytes.getvalue()).decode("utf-8")
+        base64_string = "data:image/png;base64," + base64.b64encode(bytes.getvalue()).decode("utf-8")
         return "<img src='" + base64_string + "' width='" + str(width) + "'>"  # Return the image data string
     except Exception as e:
         return "<b>Exception:</b> " + str(e)  # Return the error message
