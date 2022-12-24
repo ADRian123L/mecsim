@@ -80,13 +80,12 @@ class PlotVector:
         # Show the plot:
         plt.show()
 
-        
+
 # test the class:
 if __name__ == '__main__':
-    # Test the class:
-    # Create a list of vectors:
-    vectors = [[-1, 3], [2, -5], [-4, 2], [3, -6]]
-    # Create a instance of the class:
-    plot = PlotVector('Mecanum Vectors', vectors)
-    # Plot the vectors:
+    # Test the class method:
+    plot = PlotVector.mecanum_vectors('Mecanum Vectors', 90)
+    # Test the magnitudes method:
+    plot.magnitudes(45)
+    # Test the plot method:
     plot.plot()
